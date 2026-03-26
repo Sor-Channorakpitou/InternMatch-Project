@@ -3,34 +3,44 @@ import { useState, useRef } from "react";
 import { X, Upload, FileText, Zap } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
-// Props: internship (object), onClose (fn), onSubmit (fn accepts coverLetter string)
 export default function ApplyModal({ internship, onClose, onSubmit }) {
   const { resumeFile, setResumeFile } = useAuth();
 
-  // TODO [FRIEND]: useState for coverLetter — default ""
-  // TODO [FRIEND]: useState for dragOver — default false
-  // TODO [FRIEND]: useState for submitting — default false
-  // TODO [FRIEND]: useRef for hidden file input
+  const [coverLetter, setCoverLetter] = useState("");
+  const [dragOver, setDragOver] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const fileRef = useRef(null);
 
-  // TODO [FRIEND]: handleFile(file) function
-  //   — only accept PDF files (check file.type or file.name)
-  //   — if valid, call setResumeFile(file)
-  //   — if invalid, maybe show a small error state
+  const handleFile = (file) => {
+    if (!file) return;
+    if (file.type !== "application/pdf" && !file.name.endsWith(".pdf")) {
+      alert("Please upload a PDF file.");
+      return;
+    }
+    setResumeFile(file);
+  };
 
-  // TODO [FRIEND]: handleDrop(e) function
-  //   — e.preventDefault()
-  //   — setDragOver(false)
-  //   — call handleFile with e.dataTransfer.files[0]
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    handleFile(e.dataTransfer.files[0]);
+  };
 
-  // TODO [FRIEND]: handleSubmit async function
-  //   — setSubmitting(true)
-  //   — await a 900ms fake delay (simulate API)
-  //   — call onSubmit(coverLetter)
-  //   — setSubmitting(false)
-  //   — call onClose()
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    await new Promise((r) => setTimeout(r, 900));
+    onSubmit(coverLetter);
+    setSubmitting(false);
+    onClose();
+  };
+
+  const dropZoneClass = dragOver
+    ? "border-blue-400 bg-blue-50"
+    : resumeFile
+    ? "border-green-400 bg-green-50"
+    : "border-gray-200 bg-gray-50 hover:border-blue-300 hover:bg-blue-50";
 
   return (
-    // Backdrop — close on backdrop click
     <div
       className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-5"
       onClick={(e) => e.target === e.currentTarget && onClose()}
@@ -40,10 +50,17 @@ export default function ApplyModal({ internship, onClose, onSubmit }) {
         {/* Header */}
         <div className="flex justify-between items-start p-7 pb-0">
           <div>
-            {/* TODO [FRIEND]: Show "Apply to {internship.company}" as h2 */}
-            {/* TODO [FRIEND]: Show internship.title as subtitle */}
+            <h2 className="text-xl font-bold text-gray-900">
+              Apply to {internship.company}
+            </h2>
+            <p className="text-sm text-gray-500 mt-0.5">{internship.title}</p>
           </div>
-          {/* TODO [FRIEND]: X button calls onClose */}
+          <button
+            onClick={onClose}
+            className="p-2 rounded-xl hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors"
+          >
+            <X size={20} />
+          </button>
         </div>
 
         <hr className="my-5 border-gray-100" />
@@ -52,32 +69,35 @@ export default function ApplyModal({ internship, onClose, onSubmit }) {
 
           {/* Resume upload zone */}
           <div>
-            {/* TODO [FRIEND]: Label "Resume / CV" with required asterisk */}
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Resume / CV <span className="text-red-500">*</span>
+            </label>
             <div
-              onClick={() => {/* TODO [FRIEND]: trigger fileRef.current?.click() */}}
-              onDragOver={(e) => {/* TODO [FRIEND]: e.preventDefault(); setDragOver(true) */}}
-              onDragLeave={() => {/* TODO [FRIEND]: setDragOver(false) */}}
-              onDrop={/* TODO [FRIEND]: handleDrop */undefined}
-              className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
-                // TODO [FRIEND]: dragOver → blue border + blue bg
-                // TODO [FRIEND]: resumeFile → green border + green bg
-                // TODO [FRIEND]: default → gray border + gray bg
-                ""
-              }`}
+              onClick={() => fileRef.current?.click()}
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+              className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${dropZoneClass}`}
             >
-              {/* TODO [FRIEND]: hidden file input (ref={fileRef}, accept=".pdf") */}
+              <input
+                ref={fileRef}
+                type="file"
+                accept=".pdf"
+                className="hidden"
+                onChange={(e) => handleFile(e.target.files[0])}
+              />
 
               {resumeFile ? (
                 <div className="flex flex-col items-center gap-2">
-                  {/* TODO [FRIEND]: FileText icon in green */}
-                  {/* TODO [FRIEND]: show resumeFile.name */}
-                  {/* TODO [FRIEND]: "Click to replace" hint text */}
+                  <FileText size={28} className="text-green-500" />
+                  <span className="text-sm font-semibold text-green-700">{resumeFile.name}</span>
+                  <span className="text-xs text-green-500">Click to replace</span>
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-2">
-                  {/* TODO [FRIEND]: Upload icon in gray */}
-                  {/* TODO [FRIEND]: "Drop PDF here or browse" text */}
-                  {/* TODO [FRIEND]: "PDF only · Max 5MB" hint */}
+                  <Upload size={28} className="text-gray-400" />
+                  <span className="text-sm font-medium text-gray-600">Drop PDF here or browse</span>
+                  <span className="text-xs text-gray-400">PDF only · Max 5MB</span>
                 </div>
               )}
             </div>
@@ -85,20 +105,43 @@ export default function ApplyModal({ internship, onClose, onSubmit }) {
 
           {/* Cover letter */}
           <div>
-            {/* TODO [FRIEND]: Label "Cover Letter" with "(optional)" in gray */}
-            {/* TODO [FRIEND]: <textarea>
-                — rows={5}, value={coverLetter}, onChange updates state
-                — placeholder: "Tell {internship.company} why you're a great fit…"
-                — Tailwind: w-full border rounded-xl p-3 text-sm resize-y focus ring */}
-            {/* TODO [FRIEND]: character count "{coverLetter.length} / 1000" right-aligned */}
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Cover Letter <span className="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <textarea
+              rows={5}
+              value={coverLetter}
+              onChange={(e) => setCoverLetter(e.target.value.slice(0, 1000))}
+              placeholder={`Tell ${internship.company} why you're a great fit…`}
+              className="w-full border border-gray-200 rounded-xl p-3 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-blue-400 hover:border-blue-300 transition-colors"
+            />
+            <div className="text-xs text-gray-400 text-right mt-1">
+              {coverLetter.length} / 1000
+            </div>
           </div>
 
           {/* Submit button */}
-          {/* TODO [FRIEND]: Button
-              — disabled if no resumeFile OR submitting
-              — shows spinner + "Submitting…" when submitting
-              — shows Zap icon + "Submit Application" normally
-              — full width, blue, rounded-xl, py-3 */}
+          <button
+            onClick={handleSubmit}
+            disabled={!resumeFile || submitting}
+            className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all ${
+              !resumeFile || submitting
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 text-white shadow-sm active:scale-95"
+            }`}
+          >
+            {submitting ? (
+              <>
+                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Submitting…
+              </>
+            ) : (
+              <>
+                <Zap size={16} />
+                Submit Application
+              </>
+            )}
+          </button>
         </div>
       </div>
     </div>

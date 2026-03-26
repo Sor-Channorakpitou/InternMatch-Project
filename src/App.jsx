@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import StudentDashboard from "./pages/StudentDashboard";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
+import Footer from "./components/Footer.jsx";
 
 // Sends user to the right dashboard based on their role
 function ProtectedRoute() {
@@ -26,6 +27,7 @@ function AppRouter() {
         <Route path="/dashboard" element={<ProtectedRoute />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Footer/>
     </div>
   );
 }
