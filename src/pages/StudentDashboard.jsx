@@ -10,36 +10,27 @@ export default function StudentDashboard() {
   const { user, applications, savedJobs, resumeFile } = useAuth();
   const navigate = useNavigate();
 
-  // TODO [YOU]: useState for activeTab — default "overview"
-  //   Tabs: "overview" | "applications" | "saved"
   const [activeTab, setActiveTab] =  useState("overview");
 
-  // TODO [YOU]: useEffect — if !user, navigate to /login
   useEffect(() => {
     if (!user) navigate("/login");
   }, [user, navigate]);
-  // TODO [YOU]: useEffect — set a mounted flag to true after first render
-  //   (used to trigger CSS width transition on the profile strength bar)
+
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 0);
     return () => clearTimeout(timer);
   }, []);
 
-  // ── Derived values ─────────────────────────────────────────
-  // TODO [YOU]: counts object — count applications by status
-  //   { submitted: 0, under_review: 0, accepted: 0 }
-  //   hint: use applications.forEach(...)
+
   const counts = {submitted: 0, under_review:0, accepted: 0};
   applications.forEach((app) => {
     if(counts[app.status] !== undefined) counts[app.status]++;
   });
-  // TODO [YOU]: savedListings — filter MOCK_INTERNSHIPS where savedJobs.has(item.id)
+
   const savedListings = MOCK_INTERNSHIPS.filter((item) => savedJobs.has(item.id));
 
-  // TODO [YOU]: profileItems array — each has { label, done (bool) }
-  //   Example entries: "Resume uploaded" (done = !!resumeFile), "Skills listed" (done = true), etc.
-  //   At least 5 items
+
   const profileItems = [
     { label: "Resume uploaded", done: !!resumeFile },
     { label: "Skills listed", done: true },
@@ -48,7 +39,6 @@ export default function StudentDashboard() {
     { label: "Email verified", done: !!user?.email },
   ];
 
-  // TODO [YOU]: profilePct — Math.round(doneCount / total * 100)
   const profilePct = Math.round(
     (profileItems.filter((item) => item.done).length / profileItems.length)*100
   )
