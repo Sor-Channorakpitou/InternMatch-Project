@@ -256,7 +256,7 @@ export default function StudentDashboard() {
             <div className="bg-white border border-gray-100 rounded-2xl p-5 text-center py-10">
               <p className="text-gray-400 mb-3">No saved jobs yet.</p>
               <button className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                Browse Internships
+                Browse Internships  
               </button>
             </div>
           ) : (
@@ -308,7 +308,7 @@ function ApplicationRow({ app }) {
     <div className="group relative bg-white border border-gray-100 rounded-2xl p-5 mb-4 last:mb-0 hover:border-blue-200 hover:shadow-lg transition-all duration-200">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
       
-      <div className="relative flex items-start justify-between gap-4">
+      <div className="relative flex flex-col items-start justify-between md:flex-row md:gap-4 mb-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-3 mb-3">
             <div className="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center text-sm font-bold text-gray-600 flex-shrink-0 shadow-sm">
@@ -326,14 +326,14 @@ function ApplicationRow({ app }) {
           </div>
           
           {app.nextStep && (
-            <div className="flex items-center gap-2 text-sm text-gray-600 bg-blue-50 rounded-lg px-3 py-2 inline-block">
+            <div className="flex items-center gap-2  mb-3 text-sm text-gray-600 bg-blue-50 rounded-lg px-3 py-2 inline-block">
               <span className="text-blue-500">→</span>
               <span className="font-medium">{app.nextStep}</span>
             </div>
           )}
           
           {app.resumeUploaded && (
-            <div className="flex items-center gap-1.5 mt-2 text-xs text-green-600 font-medium">
+            <div className="flex items-center gap-1.5 mt-2 text-xs text-green-600 font-medium mb-3">
               <CheckCircle size={12} className="text-green-500" />
               Resume attached
             </div>
@@ -342,7 +342,7 @@ function ApplicationRow({ app }) {
         
         <div className="flex-shrink-0">
           <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm ${cfg.color}`}>
-            <span className="text-sm">{cfg.icon}</span>
+            <span className=" text-sm">{cfg.icon}</span>
             {cfg.label}
           </span>
         </div>

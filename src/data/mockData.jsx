@@ -2,7 +2,7 @@
 
 export const MOCK_INTERNSHIPS = [
   {
-    id: 1,
+   id: 1,
     title: "Frontend Engineering Intern",
     company: "Stripe",
     location: "Remote",

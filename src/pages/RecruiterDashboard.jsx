@@ -159,20 +159,27 @@ export default function RecruiterDashboard() {
               <h3 className="font-semibold text-lg">Weekly Application Trend</h3>
               <span className="text-green-600 text-sm font-medium">+18% vs last week</span>
             </div>
-            <div className="flex items-end gap-3 h-52">
-              {a.weeklyApplicants.map((value, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="text-xs font-medium text-gray-500">{value}</div>
-                  <div 
-                    className="w-full bg-blue-600 rounded-t transition-all"
-                    style={{ height: `${(value / 80) * 100}%` }}
-                  />
-                  <div className="text-[10px] text-gray-400">
-                    {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i]}
-                  </div>
-                </div>
-              ))}
-            </div>
+<div className="flex items-end justify-between gap-2 h-52 w-full">
+    {a.weeklyApplicants.map((value, i) => (
+      <div key={i} className="flex-1 flex flex-col items-center h-full justify-end group">
+        
+        <div className="text-xs font-bold text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity mb-1">
+          {value}
+        </div>
+        
+      
+        <div 
+          className="w-[50%] bg-blue-400 rounded-t-lg transition-all duration-500 hover:bg-blue-400 cursor-pointer"
+          style={{ height: `${(value / 80) * 100}%` }}
+        />
+        
+       
+        <div className="text-[10px] text-gray-400 mt-2 font-medium uppercase tracking-wider">
+          {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i]}
+        </div>
+      </div>
+    ))}
+  </div>
           </div>
         </div>
       )}

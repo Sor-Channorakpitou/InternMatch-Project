@@ -37,7 +37,7 @@ export default function LoginPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4 py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-12 relative overflow-hidden">
 
       {/* Background glow blobs */}
       <div className="absolute top-[-120px] left-[-80px] w-[420px] h-[420px] bg-blue-600 opacity-10 rounded-full blur-3xl pointer-events-none" />
@@ -53,7 +53,7 @@ export default function LoginPage() {
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight mb-2">
+          <h1 className="text-3xl font-bold text-dark-950 tracking-tight mb-2">
             Welcome to <span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">InternMatch</span>
           </h1>
           <p className="text-slate-400 text-sm">
