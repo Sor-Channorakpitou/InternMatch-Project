@@ -79,7 +79,7 @@ const HomePage = () => {
     if (!user) {
       navigate("/login");
     } else {
-      setApplytarget(internship);
+      setApplyTarget(internship);
     }
   };
 
@@ -87,7 +87,7 @@ const HomePage = () => {
   const submitApplication = async (cv) => {
     await applyToJob(applyTarget, cv);
     showToast(`Successfully applied to ${applyTarget.title} at ${applyTarget.company}!`);
-    setApplytarget(null);
+    setApplyTarget(null);
   }
 
   return (

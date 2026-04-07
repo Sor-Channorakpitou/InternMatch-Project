@@ -9,15 +9,11 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // TODO [YOU]: Add useState for mobile menu open/close — default false
-  // TODO [YOU]: Add useState for scrolled (shadow on scroll) — default 
   const [isOpen, setIsOpen] = useState(false); 
   const [Scrolled, setScrolled] = useState(false);
 
-  // TODO [YOU]: useEffect — listen to window scroll
-  //   setScrolled(window.scrollY > 4)
-  //   remember to remove the event listener on cleanup
-
+  // setScrolled(window.scrollY > 4)
+  // remember to remove the event listener on cleanup
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10); 
     window.addEventListener("scroll", handleScroll); 
@@ -25,7 +21,6 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    // TODO [YOU]: call logout(), then navigate to "/"
     logout(); 
     setIsOpen(false); 
     navigate("/");
@@ -124,7 +119,7 @@ export default function Navbar() {
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-      </div> {/* END OF MAIN CONTAINER */}
+      </div> 
 
       {/* 5. Mobile Dropdown Menu (Outside main flex container) */}
       {isOpen && (
