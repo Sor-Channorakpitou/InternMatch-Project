@@ -135,17 +135,3 @@ npm install react-router-dom lucide-react
 npm install -D tailwindcss postcss autoprefixer
 ```
 
----
-
-## Done checklist
-
-- [ ] `npx create-react-app internmatch`
-- [ ] Tailwind installed and configured
-- [ ] `react-router-dom` routes set up in `App.jsx`
-- [ ] `AuthContext.jsx` wrapping the whole app
-- [ ] `mockData.js` populated with internships
-- [ ] `HomePage.jsx` with `useMemo` filter working
-- [ ] `InternshipCard.jsx` with apply + save buttons
-- [ ] `DashboardPage.jsx` showing application status
-- [ ] `Navbar.jsx` responsive on mobile
-- [ ] Git repo created and friend has cloned it
